@@ -2,6 +2,7 @@
 #include <cmath>
 #include <vector>
 #include <memory> // For smart pointers
+#include <string>
 
 using namesapce std;
 namespace Electronics// decalres namespace for all electronics-based clases.
