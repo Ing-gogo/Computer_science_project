@@ -3,21 +3,22 @@
 #include <vector>
 #include <memory> // For smart pointers
 
-namespace Electronics {
-
+using namesapce std;
+namespace Electronics// decalres namespace for all electronics-based clases.
+{
     const double PI = 3.141592653589793;
-
+//Base class Component
     class Component {
     protected:
         double value; // resistance, capacitance, or inductance
     public:
-        Component(double v) : value(v) {}
-        virtual void printType() const = 0;
-        virtual double reactance(double frequency) const = 0;
-        virtual double powerLoss(double current) const = 0;
-        virtual ~Component() {}
+        Component(double v) : value(v) {}// constructor
+        virtual void printType() const = 0;// method to print type of the component
+        virtual double reactance(double frequency) const = 0;// method used to calculate the reactance of components either inductive or capacitive reactance.
+        virtual double powerLoss(double current) const = 0;// method to calculate power loss (only overriden in the resistor class) 
+        virtual ~Component() {}// destructor
     };
-
+//Derived class Resistor 
     class Resistor : public Component {
     public:
         Resistor(double r) : Component(r) {}
@@ -31,7 +32,7 @@ namespace Electronics {
             return current * current * value;
         }
     };
-
+//Derived class Capacitor
     class Capacitor : public Component {
     public:
         Capacitor(double c) : Component(c) {}
@@ -42,10 +43,10 @@ namespace Electronics {
             return 1.0 / (2 * PI * frequency * value);
         }
         double powerLoss(double) const override {
-            return 0.0;
+            return 0.0;//0.0 because no power loss for a Capacitor
         }
     };
-
+//Derived class Inductor
     class Inductor : public Component {
     public:
         Inductor(double l) : Component(l) {}
@@ -56,26 +57,25 @@ namespace Electronics {
             return 2 * PI * frequency * value;
         }
         double powerLoss(double) const override {
-            return 0.0;
+            return 0.0;//0.0 because no power is lost on an inductor
         }
     };
 
-} // namespace Electronics
-
+} 
+// main program
 int main() {
-    using namespace Electronics;
-    using namespace std;
-
+    using namespace Electronics;// To bring in our classes
+ // Creates a vector to store unique_ptrs to components
     vector<unique_ptr<Component>> components;
 
     int n;
     cout << "Enter the number of components: ";
     cin >> n;
-
+//Loops through and prompts the user to input values for each component
     for (int i = 0; i < n; ++i) {
         string type;
         double value, frequency, current;
-
+//Prompts user for component details
         cout << "\nComponent " << (i + 1) << " type (resistor/capacitor/inductor): ";
         cin >> type;
 
@@ -87,9 +87,9 @@ int main() {
 
         cout << "Enter current (Amps): ";
         cin >> current;
-
+//Base class pointer for polymorphism
         Component* comp = nullptr;
-
+//Determine which class to generate
         if (type == "resistor") {
             comp = new Resistor(value);
         } else if (type == "capacitor") {
@@ -100,14 +100,14 @@ int main() {
             cout << "Invalid component type. Skipping...\n";
             continue;
         }
-
+//Transfers ownership to the smart pointer in the vector
         components.emplace_back(comp);
-
+//Displays results
         comp->printType();
         cout << "Reactance: " << comp->reactance(frequency) << " ohms\n";
         cout << "Power Loss: " << comp->powerLoss(current) << " watts\n";
     }
-
+//All memory is automatically cleaned up by the unique_ptr
     return 0;
 }
 
