@@ -5,7 +5,7 @@
 #include <string>
 
 using namesapce std;
-namespace Electronics// decalres namespace for all electronics-based clases.
+namespace Electronics// declares namespace for all electronics-based classes.
 {
     const double PI = 3.141592653589793;
 //Base class Component
@@ -16,7 +16,7 @@ namespace Electronics// decalres namespace for all electronics-based clases.
         Component(double v) : value(v) {}// constructor
         virtual void printType() const = 0;// method to print type of the component
         virtual double reactance(double frequency) const = 0;// method used to calculate the reactance of components either inductive or capacitive reactance.
-        virtual double powerLoss(double current) const = 0;// method to calculate power loss (only overriden in the resistor class) 
+        virtual double powerLoss(double current) const = 0;// method to calculate power loss (only overriden in the Resistor class) 
         virtual ~Component() {}// destructor
     };
 //Derived class Resistor 
@@ -44,7 +44,7 @@ namespace Electronics// decalres namespace for all electronics-based clases.
             return 1.0 / (2 * PI * frequency * value);
         }
         double powerLoss(double) const override {
-            return 0.0;//0.0 because no power loss for a Capacitor
+            return 0.0;//0.0 because no power is lost for a Capacitor
         }
     };
 //Derived class Inductor
@@ -90,7 +90,7 @@ int main() {
         cin >> current;
 //Base class pointer for polymorphism
         Component* comp = nullptr;
-//Determine which class to generate
+//To determine which class to generate
         if (type == "resistor") {
             comp = new Resistor(value);
         } else if (type == "capacitor") {
