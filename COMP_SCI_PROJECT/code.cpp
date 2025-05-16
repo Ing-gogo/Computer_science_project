@@ -4,7 +4,7 @@
 #include <memory> // For smart pointers
 #include <string>
 
-using namesapce std;
+using namespace std;
 namespace Electronics// declares namespace for all electronics-based classes.
 {
     const double PI = 3.141592653589793;
