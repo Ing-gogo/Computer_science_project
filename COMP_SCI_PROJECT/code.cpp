@@ -98,7 +98,7 @@ int main() {
         } else if (type == "inductor") {
             comp = new Inductor(value);
         } else {
-            cout << "Invalid component type. Skipping...\n";
+            cout << "Invalid component type.\n";
             continue;
         }
 //Transfers ownership to the smart pointer in the vector
