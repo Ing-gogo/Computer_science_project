@@ -1,7 +1,5 @@
 #include <iostream>
 #include <cmath>
-#include <vector>
-#include <memory> // For smart pointers
 #include <string>
 
 using namespace std;
@@ -24,7 +22,7 @@ namespace Electronics// declares namespace for all electronics-based classes.
     public:
         Resistor(double r) : Component(r) {}
         void printType() const override {
-            std::cout << "Resistor\n";
+           cout << "Resistor\n";
         }
         double reactance(double) const override {
             return 0.0;
@@ -38,7 +36,7 @@ namespace Electronics// declares namespace for all electronics-based classes.
     public:
         Capacitor(double c) : Component(c) {}
         void printType() const override {
-            std::cout << "Capacitor\n";
+            cout << "Capacitor\n";
         }
         double reactance(double frequency) const override {
             return 1.0 / (2 * PI * frequency * value);
@@ -52,7 +50,7 @@ namespace Electronics// declares namespace for all electronics-based classes.
     public:
         Inductor(double l) : Component(l) {}
         void printType() const override {
-            std::cout << "Inductor\n";
+            cout << "Inductor\n";
         }
         double reactance(double frequency) const override {
             return 2 * PI * frequency * value;
@@ -66,9 +64,6 @@ namespace Electronics// declares namespace for all electronics-based classes.
 // main program
 int main() {
     using namespace Electronics;// To bring in our classes
- // Creates a vector to store unique_ptrs to components
-    vector<unique_ptr<Component>> components;
-
     int n;
     cout << "Enter the number of components: ";
     cin >> n;
@@ -101,14 +96,13 @@ int main() {
             cout << "Invalid component type.\n";
             continue;
         }
-//Transfers ownership to the smart pointer in the vector
-        components.emplace_back(comp);
+
 //Displays results
         comp->printType();
         cout << "Reactance: " << comp->reactance(frequency) << " ohms\n";
         cout << "Power Loss: " << comp->powerLoss(current) << " watts\n";
+        delete comp; // Free memory manually
     }
-//All memory is automatically cleaned up by the unique_ptr
     return 0;
 }
 
